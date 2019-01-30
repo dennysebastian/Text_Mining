@@ -1,0 +1,51 @@
+---
+title: "Text Mining"
+author: "SED/JAK"
+date: "25 January 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE, echo=FALSE}
+library(stringr)
+library(dplyr)
+library(tm)
+library(wordcloud)
+```
+
+Text mining deals with helping computers understand the "meaning" of the text. Some of the common text mining applications include sentiment analysis e.g if a Tweet about a movie says something positive or not, text classification e.g classifying the mails you get as spam or ham etc.
+
+The biggest challenge is one needs to thoroughly assess the underlying patterns in text, that too manually.
+
+
+
+```{r data, echo=FALSE}
+# Load data
+load("C:/Users/sebastian.IAZI/Desktop/Presentation/propertyData.RData", verbose = T)
+```
+
+
+Before we extract informations from text, we need to preprocess it. Text data contains white spaces, punctuations, stop words etc. These characters do not convey much information and are hard to process. 
+
+```{r, echo=FALSE}
+text <- propertyData$description
+text <- gsub("\\(|\\)", "", text) # removing brackets from the text
+text <- gsub(" ", "", text) # removing whitespaces from text
+head(text)
+```
+## Word Cloud
+A word cloud is a simple yet informative way to understand textual data and to do text analysis.
+```{r wordCloud, echo=FALSE, warning=FALSE}
+corpus <- VCorpus(VectorSource(text))
+corpus <- tm_map(corpus, removeWords, stopwords())
+corpus <- tm_map(corpus, stripWhitespace)
+wordcloud(corpus, min.freq = 5, random.order = FALSE, colors = "red")
+```
+
+
+
+```{r, echo=FALSE}
+## specifying patterns 
+ptrn_en <- '[1-9][0-9]bkh'
+
+```
+
