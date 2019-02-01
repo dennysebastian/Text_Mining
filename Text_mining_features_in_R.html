@@ -195,21 +195,78 @@ $(document).ready(function () {
 </div>
 
 
-<!-- :  -->
-<!--     toc: TRUE -->
-<!--     toc_depth: 2 -->
-<!--     toc_float: TRUE -->
-<!--     highlight: monochrome -->
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>Data mining has to do with the discovery of useful, valid, unexpected, and understandable knowledge from data. One of the most important distinguishing issues in data mining is size. the amount of data available for exploration has increased exponentially. This poses difficult challenges for the standard data analysis disciplines: One has to consider issues like computational efficiency, limited memory resources, interfaces to databases, etc. Other key distinguishing features are the diversity of data sources that one frequently encounters in data mining projects, as well as the diversity of data types (text, sound, video, etc.). All these issues turn data mining into a highly interdisciplinary subject involving not only typical data analysts but also people working with databases, data visualization on high dimensions, etc.</p>
+<ul>
+<li>Data mining has to do with the discovery of useful, valid, unexpected, and understandable knowledge from data.</li>
+<li>One of the most important distinguishing issues in data mining is size. the amount of data available for exploration has increased exponentially. This poses difficult challenges for the standard data analysis disciplines: One has to consider issues like computational efficiency, limited memory resources, interfaces to databases, etc. Other key distinguishing features are the diversity of data sources that one frequently encounters in data mining projects, as well as the diversity of data types (text, sound, video, etc.). All these issues turn data mining into a highly interdisciplinary subject involving not only typical data analysts but also people working with databases, data visualization on high dimensions, etc.</li>
+</ul>
+</div>
+<div id="motivation-behind" class="section level1">
+<h1>Motivation behind</h1>
+<ul>
+<li>DataOne Source project</li>
+</ul>
 </div>
 <div id="r-packages-for-text-mining" class="section level1">
 <h1>R packages for text mining</h1>
-<p>There is a wide range of packages available in R for natural language processing Some of them are as follows # tm <em>tm</em> package provides some powerful functions which will aid in text-processing step. It has methods for importing data, handlin corpus, metadat, management, creation of term document matrices and proparocessing methods. For transformation of text, there are methods such as stop-word removal, stemming, whitespace removal and so on, <em>tm</em> provides functions tm_map, content_transformer, tolower, stopwords.</p>
+<p>There is a wide range of packages available in R for natural language processing Some of them are as follows<br /></p>
+<ul>
+<li>stringr <br /></li>
+<li>OpenNLP <br /></li>
+<li>maxent <br /></li>
+<li>Rweka <br /></li>
+<li>tm <br /></li>
+</ul>
+</div>
+<div id="stringr" class="section level1">
+<h1>stringr</h1>
+<p>We can use <em>stringr</em> to detect, extract, match and split strings using regular expressions, also it has powerful options to express patterns.</p>
+<div id="extracting-substrings" class="section level2">
+<h2>Extracting substrings</h2>
+<p>extracts parts of strings based on their position</p>
+<pre class="r"><code>library(stringr)
+str_sub(c(&quot;Commercial&quot;, &quot;Appartments&quot;, &quot;Condominium&quot;), 1, 5)</code></pre>
+<pre><code>## [1] &quot;Comme&quot; &quot;Appar&quot; &quot;Condo&quot;</code></pre>
+<pre class="r"><code># Both start and end can be negative integers, in which case, they count from the end of the string.
+str_sub(c(&quot;Commercial&quot;, &quot;Appartments&quot;, &quot;Condominium&quot;), -5, -1)</code></pre>
+<pre><code>## [1] &quot;rcial&quot; &quot;ments&quot; &quot;inium&quot;</code></pre>
+</div>
+<div id="hunting-for-matches" class="section level2">
+<h2>Hunting for matches</h2>
+<p>For finding matches stringr provides three functions, - str_detect() - str_subset() - str_count()</p>
+<div id="detecting-matches" class="section level3">
+<h3>Detecting matches</h3>
+<pre class="r"><code>text &lt;- 'Fully furnished ready to move-In 2 Bedrooms , 2 Bathrooms , 1 Balcony,  in a 3 storeyed private apartment located in ulloor bahsi nagar,kochulloor(best##$//). 5 to 10 years old. Super Built up area 97.55 Sq. Meter. 7th of 7 Floors. Residential locality.Karunya residence association Accessibility-450 m to nh47, 2 kms to byepass and very proximate to medical college,kims hospital and other educational institutions.5 kms to technopark campus. Occupied only for 2 years and very well maintained. No wall sharing with two covered balconies. Borewell and corporation water connection'
+
+det_mat &lt;- str_detect(text, &quot;2 Bathrooms&quot;)
+str(det_mat)</code></pre>
+<pre><code>##  logi TRUE</code></pre>
+</div>
+<div id="subsetting-strings-based-on-match" class="section level3">
+<h3>Subsetting strings based on match</h3>
+<pre class="r"><code>str_subset(c(&quot;Commercial&quot;, &quot;Appartments&quot;, &quot;Condominium&quot;), &quot;Co&quot;)</code></pre>
+<pre><code>## [1] &quot;Commercial&quot;  &quot;Condominium&quot;</code></pre>
+<pre class="r"><code>str_view(text, &quot;2 Bathrooms|1 Balcony|7 Floors&quot;)</code></pre>
+<div id="htmlwidget-2331053db5138da89ceb" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2331053db5138da89ceb">{"x":{"html":"<ul>\n  <li>Fully furnished ready to move-In 2 Bedrooms , <span class='match'>2 Bathrooms<\/span> , 1 Balcony,  in a 3 storeyed private apartment located in ulloor bahsi nagar,kochulloor(best##$//). 5 to 10 years old. Super Built up area 97.55 Sq. Meter. 7th of 7 Floors. Residential locality.Karunya residence association Accessibility-450 m to nh47, 2 kms to byepass and very proximate to medical college,kims hospital and other educational institutions.5 kms to technopark campus. Occupied only for 2 years and very well maintained. No wall sharing with two covered balconies. Borewell and corporation water connection<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>str_view_all(text, &quot;2 Bathrooms|1 Balcony|7 Floors&quot;)</code></pre>
+<div id="htmlwidget-8b52f0fed9583682fd8e" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8b52f0fed9583682fd8e">{"x":{"html":"<ul>\n  <li>Fully furnished ready to move-In 2 Bedrooms , <span class='match'>2 Bathrooms<\/span> , <span class='match'>1 Balcony<\/span>,  in a 3 storeyed private apartment located in ulloor bahsi nagar,kochulloor(best##$//). 5 to 10 years old. Super Built up area 97.55 Sq. Meter. 7th of <span class='match'>7 Floors<\/span>. Residential locality.Karunya residence association Accessibility-450 m to nh47, 2 kms to byepass and very proximate to medical college,kims hospital and other educational institutions.5 kms to technopark campus. Occupied only for 2 years and very well maintained. No wall sharing with two covered balconies. Borewell and corporation water connection<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="extracting-patterns" class="section level3">
+<h3>Extracting patterns</h3>
+<pre class="r"><code>txt &lt;- str_replace_all(text, &quot; &quot;, &quot;&quot;)
+#positions &lt;- str_locate_all(txt, '[0-9]Bedrooms')
+extracted &lt;- str_extract(txt, '[0-9]Bedrooms')</code></pre>
+</div>
+</div>
+<div id="tm" class="section level2">
+<h2>tm</h2>
+<p><em>tm</em> package provides some powerful functions which will aid in text-processing step. It has methods for importing data, handlin corpus, metadat, management, creation of term document matrices and proparocessing methods. For transformation of text, there are methods such as stop-word removal, stemming, whitespace removal and so on, <em>tm</em> provides functions tm_map, content_transformer, tolower, stopwords.</p>
 <pre class="r"><code>library(tm)</code></pre>
 <pre><code>## Loading required package: NLP</code></pre>
-<pre class="r"><code>text &lt;- 'Fully furnished ready to move-In 2 Bedrooms , 2 Bathrooms , 1 Balcony,  in a 3 storeyed private apartment located in ulloor bahsi nagar,kochulloor(best##$//). 5 to 10 years old. Super Built up area 97.55 Sq. Meter. 7th of 7 Floors. Residential locality.Karunya residence association Accessibility-450 m to nh47, 2 kms to byepass and very proximate to medical college,kims hospital and other educational institutions.5 kms to technopark campus. Occupied only for 2 years and very well maintained. No wall sharing with two covered balconies. Borewell and corporation water connection'</code></pre>
+</div>
 <div id="stop-word-removal" class="section level2">
 <h2>stop-word removal</h2>
 <pre class="r"><code>corpus &lt;- VCorpus(VectorSource(text))
@@ -234,41 +291,6 @@ print(corpus[[1]]$content)</code></pre>
 <pre class="r"><code>corpus &lt;- tm_map(corpus, removePunctuation)
 print(corpus[[1]]$content)</code></pre>
 <pre><code>## [1] &quot;Fulli furnish readi moveIn 2 Bedroom  2 Bathroom  1 Balcony 3 storey privat apart locat ulloor bahsi nagarkochulloorbest 5 10 year old Super Built area 9755 Sq Meter 7th 7 Floors Residenti localityKarunya resid associ Accessibility450 m nh47 2 kms byepass proxim medic collegekim hospit educ institutions5 kms technopark campus Occupi 2 year well maintained No wall share two cover balconies Borewel corpor water connect&quot;</code></pre>
-</div>
-</div>
-<div id="stringr" class="section level1">
-<h1>stringr</h1>
-<p>We can use <em>stringr</em> to detect, extract, match and split strings using regular expressions, also it has powerful options to express patterns.</p>
-<div id="extracting-substrings" class="section level2">
-<h2>Extracting substrings</h2>
-<p>extracts parts of strings based on their position</p>
-<pre class="r"><code>library(stringr)
-str_sub(c(&quot;Commercial&quot;, &quot;Appartments&quot;, &quot;Condominium&quot;), 1, 5)</code></pre>
-<pre><code>## [1] &quot;Comme&quot; &quot;Appar&quot; &quot;Condo&quot;</code></pre>
-<pre class="r"><code># Both start and end can be negative integers, in which case, they count from the end of the string.
-str_sub(c(&quot;Commercial&quot;, &quot;Appartments&quot;, &quot;Condominium&quot;), -5, -1)</code></pre>
-<pre><code>## [1] &quot;rcial&quot; &quot;ments&quot; &quot;inium&quot;</code></pre>
-</div>
-<div id="hunting-for-matches" class="section level2">
-<h2>Hunting for matches</h2>
-<p>For finding matches stringr provides three functions, - str_detect() - str_subset() - str_count()</p>
-<div id="detecting-matches" class="section level3">
-<h3>Detecting matches</h3>
-<pre class="r"><code># specifying pattern
-ptrn_rNb &lt;- '[1-9] Bedrooms'
-
-det_mat &lt;- str_detect(text, ptrn_rNb)
-str(det_mat)</code></pre>
-<pre><code>##  logi TRUE</code></pre>
-</div>
-<div id="subsetting-strings-based-on-match" class="section level3">
-<h3>Subsetting strings based on match</h3>
-<pre class="r"><code>str_subset(text, ptrn_rNb)</code></pre>
-<pre><code>## [1] &quot;Fully furnished ready to move-In 2 Bedrooms , 2 Bathrooms , 1 Balcony,  in a 3 storeyed private apartment located in ulloor bahsi nagar,kochulloor(best##$//). 5 to 10 years old. Super Built up area 97.55 Sq. Meter. 7th of 7 Floors. Residential locality.Karunya residence association Accessibility-450 m to nh47, 2 kms to byepass and very proximate to medical college,kims hospital and other educational institutions.5 kms to technopark campus. Occupied only for 2 years and very well maintained. No wall sharing with two covered balconies. Borewell and corporation water connection&quot;</code></pre>
-<pre class="r"><code>str_view(text, ptrn_rNb)</code></pre>
-<div id="htmlwidget-71b313fca7b2c811aa2e" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-71b313fca7b2c811aa2e">{"x":{"html":"<ul>\n  <li>Fully furnished ready to move-In <span class='match'>2 Bedrooms<\/span> , 2 Bathrooms , 1 Balcony,  in a 3 storeyed private apartment located in ulloor bahsi nagar,kochulloor(best##$//). 5 to 10 years old. Super Built up area 97.55 Sq. Meter. 7th of 7 Floors. Residential locality.Karunya residence association Accessibility-450 m to nh47, 2 kms to byepass and very proximate to medical college,kims hospital and other educational institutions.5 kms to technopark campus. Occupied only for 2 years and very well maintained. No wall sharing with two covered balconies. Borewell and corporation water connection<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script>
-</div>
 </div>
 </div>
 <div id="advantage" class="section level1">

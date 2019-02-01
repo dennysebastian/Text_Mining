@@ -102,4 +102,7 @@ freq[head(ord)]
 
 findFreqTerms(dtmr,lowfreq=80)
 
-findAssocs(dtmr,”project”,0.6)
+#findAssocs(dtmr,”project”,0.6)
+
+# https://books.google.co.in/books?hl=en&lr=&id=YNDcDgAAQBAJ&oi=fnd&pg=PP1&dq=text+mining+using+stringr&ots=kUVl1LCZna&sig=rcy34fi8fdsi2binPF843da_3r4#v=onepage&q&f=false
+# https://rpubs.com/iPhuoc/stringr_manipulation
