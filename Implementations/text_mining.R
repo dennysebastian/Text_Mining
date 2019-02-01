@@ -12,7 +12,8 @@ propertyData %>% nrow
 text <- propertyData$info
 
 corpus <- VCorpus(VectorSource(text))
-corpus <- tm_map(corpus, removeWords, stopwords())
+corpus <- tm_map(corpus, removeWords, stopwords('english'))
+corpus <- tm_map(corpus, removeWords, the)
 corpus <- tm_map(corpus, stripWhitespace)
 
 wordcloud(corpus, min.freq = 25, random.order = FALSE, colors = "red")
@@ -67,4 +68,10 @@ Extracted <-
 
 names(Extracted) <- paste0("area", seq_len(ncol(Extracted)))  
 Extracted %>% View
+
+
+######
+stopwords_regex = paste(stopwords('en'), collapse = '\\b|\\b')
+stopwords_regex = paste0('\\b', stopwords_regex, '\\b')
+documents = stringr::str_replace_all(documents, stopwords_regex, '')
 

@@ -10,35 +10,75 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # Introduction
 
-  Data mining has to do with the discovery of useful, valid, unexpected, and understandable knowledge from data. One of the most important distinguishing issues in data mining is size. the amount of data available for exploration has increased exponentially. This poses difficult challenges for the standard data analysis disciplines: One has to consider issues like computational efficiency, limited memory resources, interfaces to databases, etc. Other key distinguishing features are the diversity of data sources that
-one frequently encounters in data mining projects, as well as the diversity of data types
-(text, sound, video, etc.). All these issues turn data mining into a highly interdisciplinary
-subject involving not only typical data analysts but also people working with databases,
-data visualization on high dimensions, etc.
+  Data mining has to do with the discovery of useful, valid, unexpected, and understandable knowledge from data. One of the most important distinguishing issues in data mining is size. the amount of data available for exploration has increased exponentially. This poses difficult challenges for the standard data analysis disciplines: One has to consider issues like computational efficiency, limited memory resources, interfaces to databases, etc. Other key distinguishing features are the diversity of data sources that one frequently encounters in data mining projects, as well as the diversity of data types (text, sound, video, etc.). All these issues turn data mining into a highly interdisciplinary subject involving not only typical data analysts but also people working with databases, data visualization on high dimensions, etc.
 
 # R packages for text mining 
 There is a wide range of packages available in R for natural language processing 
 Some of them are as follows
  # tm
-*tm* package provides some powerful functions which will aid in text-processinf step. It has methods for importing data, handlin corpus, metadat, management, creation of term document matrices and proparocessing methods. 
-For transformation of text, there are methods such as stop-word removal, stemming, whitespace removal and so on, *tm* provides functions tm_map, content_transformer, tolowe, stopwords.
+*tm* package provides some powerful functions which will aid in text-processing step. It has methods for importing data, handlin corpus, metadat, management, creation of term document matrices and proparocessing methods. 
+For transformation of text, there are methods such as stop-word removal, stemming, whitespace removal and so on, *tm* provides functions tm_map, content_transformer, tolower, stopwords.
+```{r}
+library(tm)
+text <- 'Fully furnished ready to move-In 2 Bedrooms , 2 Bathrooms , 1 Balcony,  in a 3 storeyed private apartment located in ulloor bahsi nagar,kochulloor(best##$//). 5 to 10 years old. Super Built up area 97.55 Sq. Meter. 7th of 7 Floors. Residential locality.Karunya residence association Accessibility-450 m to nh47, 2 kms to byepass and very proximate to medical college,kims hospital and other educational institutions.5 kms to technopark campus. Occupied only for 2 years and very well maintained. No wall sharing with two covered balconies. Borewell and corporation water connection'
+```
+ 
 ## stop-word removal
 ```{r tm, echo=TRUE}
-library(tm)
-text <- 'Fully furnished ready to move-In 2bhk in a 3 storeyed private apartment located in ulloor bahsi nagar,kochulloor(best##$//). Residential locality.Karunya residence association
-Accessibility-450 m to nh47, 2 kms to byepass and very proximate to medical college,kims hospital and other educational institutions.5 kms to technopark campus.
-Occupied only for 2 years and very well maintained. No wall sharing with two covered balconies. Borewell and corporation water connection'
-
 corpus <- VCorpus(VectorSource(text))
 corpus <- tm_map(corpus, removeWords, stopwords())
-corpus
+print(corpus[[1]]$content)
 ```
 
-## stop-word removal
+## stemming
+```{r}
+corpus <- tm_map(corpus, stemDocument, "english")
+print(corpus[[1]]$content)
+```
+## whitespace removal
+```{r}
+corpus <- tm_map(corpus, stripWhitespace)
+print(corpus[[1]]$content)
+```
+## punctuation removal
+```{r}
+corpus <- tm_map(corpus, removePunctuation)
+print(corpus[[1]]$content)
+```
 
+# stringr
+We can use *stringr* to detect, extract, match and split strings using regular expressions, also it has powerful options to express patterns.
 
-For managing documents using the tm package, we create a corpus which is a collection of text documents. There are two types of implementation, volatile corpus(VCorpus) and permanent corpus(PCropus).
- 
+## Extracting substrings
+extracts parts of strings based on their position
+```{r}
+library(stringr)
+str_sub(c("Commercial", "Appartments", "Condominium"), 1, 5)
+# Both start and end can be negative integers, in which case, they count from the end of the string.
+str_sub(c("Commercial", "Appartments", "Condominium"), -5, -1)
+```
+## Hunting for matches
+For finding matches stringr provides three functions,
+ - str_detect()
+ - str_subset()
+ - str_count()
+
+### Detecting matches
+```{r}
+# specifying pattern
+ptrn_rNb <- '[1-9] Bedrooms'
+
+det_mat <- str_detect(text, ptrn_rNb)
+str(det_mat)
+```
+### Subsetting strings based on match
+```{r}
+str_subset(text, ptrn_rNb)
+```
+```{r}
+str_view(text, ptrn_rNb)
+```
+
 # Advantage
 Taking advantage of the highly flexible database interfaces availablein R,
 
