@@ -2,7 +2,13 @@
 title: "Text mining features in R"
 author: "SED/JAK"
 date: "31 January 2019"
-output: html_document
+output:
+  html_document: 
+    toc: TRUE
+    toc_depth: 2
+    toc_float: TRUE
+    theme: yeti
+    highlight: monochrome
 ---
 
 ```{r setup, include=FALSE}
